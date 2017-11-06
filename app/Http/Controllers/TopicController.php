@@ -6,9 +6,25 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTopicRequest;
 use App\Transformers\TopicTransformer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class TopicController extends Controller
 {
+
+
+   public  function index()
+   {
+     $topics = Topic::latestFirst()->paginate(3);
+     $topicsCollection = $topics->getCollection();
+
+     return fractal()
+      ->collection($topicsCollection)
+      ->parseIncludes(['user'])
+      ->transformWith(new TopicTransformer)
+      ->paginateWith(new IlluminatePaginatorAdapter($topics))
+      ->toArray();
+     # code...
+   }
     public function store(StoreTopicRequest $request){
 
       $topic =new Topic;
@@ -25,7 +41,7 @@ class TopicController extends Controller
 
       return fractal()
         ->item($topic)
-        ->parseIncludes(['user', 'posts', 'posts.user'])  
+        ->parseIncludes(['user', 'posts', 'posts.user'])
         ->transformWith(new TopicTransformer)
         ->toArray();
 

@@ -22,5 +22,6 @@ Route::post('/register', 'RegisterController@register');
 
 Route::middleware('auth:api')->group( function(){
   Route::post('/topics', 'TopicController@store');
+  Route::get('/topics', 'TopicController@index');
 
 });
