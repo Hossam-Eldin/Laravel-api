@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use  App\Like;
 use App\Traits\Orderable;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +10,7 @@ class Post extends Model
 {
     use Orderable;
 
-    
+
     protected $fillable = ['body'];
 
     public function topic(){
@@ -19,5 +19,10 @@ class Post extends Model
 
     public function user(){
       return $this->belongsTo(User::class);
+    }
+
+    public function likes()
+    {
+      return $this->morphMany(Like::class , 'likeable');
     }
 }
