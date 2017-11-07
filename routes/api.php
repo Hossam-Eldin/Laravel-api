@@ -43,6 +43,9 @@ Route::prefix('topics')->group( function(){
     Route::middleware('auth:api')->patch('/{post}', 'PostController@update');
     Route::middleware('auth:api')->delete('/{post}', 'PostController@destroy');
 
+    //likes
+      Route::prefix('/{post}/likes')->group(function(){
+        Route::middleware('auth:api')->post('/', 'PostLikeController@store');
+      });
   });
-
 });

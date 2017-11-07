@@ -39,9 +39,17 @@ class User extends Authenticatable
       return 'https://www.redwolf.in/image/catalog/artwork-Images/mens/mr-robot-one-or-zero-artwork-india.png';
     }
 
+      public function hasLikedPost(Post $post)
+      {
+        return $post->likes->where('user_id', $this->id)->count() === 1;
+
+      }
+
     public function ownsTopic(Topic $topic){
       return $this->id === $topic->user->id;
     }
+
+
     public function ownsPost(Post $post){
       return $this->id === $post->user->id;
     }

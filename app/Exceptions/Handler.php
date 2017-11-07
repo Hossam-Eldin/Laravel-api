@@ -48,6 +48,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+      if ($request->expectsJson()) {
+          if ($exception instanceof \Illuminate\Auth\Access\AuthenticationExceotion) {
+            return response()->json([
+              'data' => [
+                'error' => 'unauthorised.'
+                ]
+            ], 403 );
+          }
+      }
+
         return parent::render($request, $exception);
     }
+
+    // protected function unauthenticated($request, AuthenticationExceotion )
+    // {
+    //   # code...
+    //
+    // }
 }
